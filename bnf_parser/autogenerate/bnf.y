@@ -11,7 +11,7 @@ void yyerror(const char* s);
 
 %}
 
-%token T_ID T_ASS T_OR T_LEFT T_RIGHT T_NEWLINE
+%token T_ID T_LITERAL T_ASS T_OR T_LEFT T_RIGHT T_NEWLINE
 %left T_ASS T_OR
 %start grammar
 
@@ -25,13 +25,18 @@ rule:
 	nonterminal T_ASS cases 
 
 cases: case_list T_NEWLINE
-	| case_list T_OR cases T_NEWLINE
+	| case_list T_OR cases
 
 case_list: nonterminal
 	| nonterminal case_list
+	| terminal
+	| terminal case_list
 
 nonterminal:
 	T_LEFT T_ID T_RIGHT
+
+terminal:
+	T_LITERAL
 
 %%
 
